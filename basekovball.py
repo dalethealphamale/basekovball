@@ -72,7 +72,6 @@ def player_matrix(homeruns, triples, doubles, singles, walks, outs, plate_appear
     #     after 3rd out
     V = np.full([8,1], o)
 
-
     # T = 217x217 transition matrix, for each player
     tb = sp.block_diag(B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, 0)
     v8 = np.block([V, np.zeros([8,7])])
@@ -139,6 +138,7 @@ def current_state():
 
     return C
 
+
 def play_ball(lineup, C, R, game_T_matrix):
 
     total_runs = 0
@@ -159,6 +159,7 @@ def play_ball(lineup, C, R, game_T_matrix):
 
     return total_runs
 
+
 def clean_csv(file_name_input):
     if not pathlib.Path(file_name_input).exists():
         print("ERROR: Unable to find", file_name_input, "in current working directory.\
@@ -171,12 +172,6 @@ def clean_csv(file_name_input):
         return file_name_input
     else:
         return file_name_input
-
-
-
-    # assert (pathlib.Path(file_name_input).exists()), "ERROR:  Unable to find file in current working directory"
-    # return file_name_input
-
 
 
 def clean_lineup(raw_lineup_input):
