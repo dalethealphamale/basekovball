@@ -1,5 +1,6 @@
 import csv
 import numpy as np
+import os
 import pandas as pd
 import pathlib
 import scipy.linalg as sp
@@ -159,8 +160,22 @@ def play_ball(lineup, C, R, game_T_matrix):
     return total_runs
 
 def clean_csv(file_name_input):
-    assert (pathlib.Path(file_name_input).exists()), "ERROR:  Unable to find file in current working directory"
-    return file_name_input
+    if not pathlib.Path(file_name_input).exists():
+        print("ERROR: Unable to find", file_name_input, "in current working directory.\
+              \nAvailable files include the following:\n")
+        files = os.listdir(os.getcwd())
+        csv_files = [i for i in files if i.endswith('.csv')]
+        for i in csv_files:
+            print(i)
+        file_name_input = input("\nPlease enter one of the .csv file names listed above:\n")
+        return file_name_input
+    else:
+        return file_name_input
+
+
+
+    # assert (pathlib.Path(file_name_input).exists()), "ERROR:  Unable to find file in current working directory"
+    # return file_name_input
 
 
 
@@ -218,13 +233,14 @@ file_name_input = input("Please specify the file name containing player statisti
                         \n           8 | \
                         \n           9 | \n")
 
-clean_csv(file_name_input)
+clean_csv = clean_csv(file_name_input)
 
 raw_lineup_input = input("\nPlease specify a batting order which reorders the hitters \
                           \naccording to their original order in .csv player statistics file: \
                           \n     (ex. 123456789 = original order) \
                           \n     (ex. 987654321 = reverse order) \
-                          \n     (ex. 123987456 = some other ordering) \n")
+                          \n     (ex. 123987456 = some other ordering) \
+                          \n     (ex. 333333333 = all the same hitter \n")
 
 
 C = current_state()
@@ -234,11 +250,11 @@ lineup = clean_lineup(raw_lineup_input)
 
 print("\n", "\nThe following batting order...\n")
 
-lineup_card = lineup_card(file_name_input, lineup)
-game_T_matrix = game_matrix(file_name_input)
+lineup_card = lineup_card(clean_csv, lineup)
+game_T_matrix = game_matrix(clean_csv)
 
 expected_runs = play_ball(lineup, C, R, game_T_matrix)
 
-print("\n will produce ", expected_runs, "expected runs per game!", "\n")
+print("\nwill produce ", expected_runs, "expected runs per game!", "\n")
 
 
