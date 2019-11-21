@@ -7,7 +7,7 @@ This code revists "Markov Chain Models for Baseball.pdf", a senior thesis writte
 
 As inputs the program requires:
 
-  (1) A .csv (comma separated value) file of career total statistics for a team 9 players, located in the current working 
+  (1) A .csv (comma separated value) file of career total statistics for a team of 9 players, located in the current working 
       directory, and formatted as follows:
       
       order | player_name | position | homeruns | triples | doubles | singles | walks | outs | plate_appearances 
