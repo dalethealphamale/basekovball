@@ -7,39 +7,6 @@ import scipy.linalg as sp
 
 
 
-
-base_runner_dist = [{}, 1, 2, 3, 12, 13, 23, 123]
-# {} = bases empty &   23 = runners on 2nd & 3rd
-# ({}, 2) = bases empty, 2 outs
-# (123, 1) = bases loaded, 2 outs
-
-state_space = [({}, 0), (1, 0), (2, 0), (3, 0), (12, 0), (13, 0), (23, 0), (123, 0),
-               ({}, 1), (1, 1), (2, 1), (3, 1), (12, 1), (13, 1), (23, 1), (123, 1),
-               ({}, 2), (1, 2), (2, 2), (3, 2), (12, 2), (13, 2), (23, 2), (123, 2),
-               ]
-
-# X blocks represent events where the number of outs do not change
-# Y blocks represent events where the number of outs increase by 1 (but not end in 3rd out)
-# Z blocks represent events where the number of outs increase by 2 (double plays) ** not accounted
-#                                                                                   for in this model **
-
-X0 = np.zeros([8,8])                    # events from 0 outs to 0 outs
-Y0 = np.zeros([8,8])                    # events from 0 outs to 1 out
-Z0 = np.zeros([8,8])                    # events from 0 outs to 2 outs ** not accounted for in this model **
-X1 = np.zeros([8,8])                    # events from 1 outs to 2 outs
-Y1 = np.zeros([8,8])                    # events from 1 outs to 2 outs
-X2 = np.zeros([8,8])                    # events from 2 outs to 2 outs
-
-O  = np.zeros([8,8])                    # impossible events (outs decreasing)
-
-# H = transition matrix for a half-inning
-H = np.block([
-    [X0, Y0, Z0],
-    [ O, X1, Y1],
-    [ O,  O, X2]
-])
-
-
 def player_matrix(homeruns, triples, doubles, singles, walks, outs, plate_appearances):
 
     h = homeruns/plate_appearances
